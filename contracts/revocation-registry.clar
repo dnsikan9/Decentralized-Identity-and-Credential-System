@@ -1,30 +1,43 @@
+;; Revocation Registry Contract
 
-;; title: revocation-registry
-;; version:
-;; summary:
-;; description:
+;; Constants
+(define-constant contract-owner tx-sender)
+(define-constant err-not-authorized (err u100))
+(define-constant err-already-revoked (err u101))
+(define-constant err-not-found (err u102))
 
-;; traits
-;;
+;; Data Maps
+(define-map revoked-credentials
+  { id: uint, holder: principal }
+  { revoker: principal, reason: (string-ascii 256) })
+(define-map authorized-revokers principal bool)
 
-;; token definitions
-;;
+;; Public Functions
+(define-public (revoke-credential (id uint) (holder principal) (reason (string-ascii 256)))
+  (begin
+    (asserts! (is-authorized-revoker tx-sender) err-not-authorized)
+    (asserts! (is-none (map-get? revoked-credentials { id: id, holder: holder })) err-already-revoked)
+    (ok (map-set revoked-credentials
+      { id: id, holder: holder }
+      { revoker: tx-sender, reason: reason }))))
 
-;; constants
-;;
+(define-public (add-revoker (revoker principal))
+  (begin
+    (asserts! (is-eq tx-sender contract-owner) err-not-authorized)
+    (ok (map-set authorized-revokers revoker true))))
 
-;; data vars
-;;
+(define-public (remove-revoker (revoker principal))
+  (begin
+    (asserts! (is-eq tx-sender contract-owner) err-not-authorized)
+    (ok (map-delete authorized-revokers revoker))))
 
-;; data maps
-;;
+;; Read-only Functions
+(define-read-only (is-credential-revoked (id uint) (holder principal))
+  (is-some (map-get? revoked-credentials { id: id, holder: holder })))
 
-;; public functions
-;;
+(define-read-only (get-revocation-info (id uint) (holder principal))
+  (map-get? revoked-credentials { id: id, holder: holder }))
 
-;; read only functions
-;;
-
-;; private functions
-;;
+(define-read-only (is-authorized-revoker (revoker principal))
+  (default-to false (map-get? authorized-revokers revoker)))
 
