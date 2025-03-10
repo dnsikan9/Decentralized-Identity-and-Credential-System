@@ -13,3 +13,9 @@ S
 #contracts/selective-disclosure.clar,7/6/767c894d0d5b775909704dc232893eaa286b93aa
 R
 "contracts/revocation-registry.clar,d/2/d28be06d865f5064f48f48b50e4a80b2d5ab1387
+S
+#tests/identity-verification.test.ts,1/f/1f946c6e509440197e87e742a1435ac8a9a2bff1
+R
+"tests/selective-disclosure.test.ts,c/b/cbffeefd8e51cc35b9846624d63b51a3d195551b
+Q
+!tests/revocation-registry.test.ts,a/5/a5bb23c026b174537d664aea741cfdea6c3ef413
