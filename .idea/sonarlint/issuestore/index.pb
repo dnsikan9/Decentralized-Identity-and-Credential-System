@@ -9,3 +9,7 @@ Q
 !tests/credential-issuance.test.ts,8/a/8a655c35c0ef4977814e5de81eea3103aaff30f0
 T
 $contracts/identity-verification.clar,6/3/63627d2e05688d155fd361be7f5c89242e6c4fdd
+S
+#contracts/selective-disclosure.clar,7/6/767c894d0d5b775909704dc232893eaa286b93aa
+R
+"contracts/revocation-registry.clar,d/2/d28be06d865f5064f48f48b50e4a80b2d5ab1387
